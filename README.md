@@ -1,1 +1,5 @@
-# proj_cpp_222
+# Estação de monitoramento de temperatura
+
+O projeto segue a ideia da proposta apresentada, consiste de uma estação para o monitoramento da temperatura do ambiente. A estação é constituída por um microcontrolador e um sensor de temperatura, além disso, contém um modelo que prevê o próximo valor e registra caso ocorra um acerto. Em complemento, ao sistema microcontrolado é apresentado um programa para computador e um aplicativo, para observação e armazenamento dos dados, sendo a comunicação com o primeiro realizada por meio da serial e a segunda com uso de um protocolo de comunicação sem fio.
+
+O objetivo é fazer a parte inicial de um projeto que permita a economia de energia na transmissão de informação do sistema meteorológico, pelo fato de que se o dado predito estiver próximo do real, o envio não seria necessário. Além disso, esse escopo permite a aplicação de diferentes conceitos apresentados ao longo da disciplina e envolve o desenvolvimento e comunicação entre diferentes plataformas.
