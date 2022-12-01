@@ -1,0 +1,7 @@
+../Core/Src/queue.cpp:9:1:Queue::Queue()	16	static
+../Core/Src/queue.cpp:15:1:Queue::~Queue()	32	static
+../Core/Src/queue.cpp:27:1:Queue::Link::Link(Data*, Queue::Link*, Queue::Link*)	24	static
+../Core/Src/queue.cpp:33:1:Queue::Link::~Link()	16	static
+../Core/Src/queue.cpp:37:6:void Queue::insert(Data*)	24	static
+../Core/Src/queue.cpp:48:7:Data* Queue::remove()	32	static
+../Core/Src/queue.cpp:75:10:uint32_t Queue::getLength()	16	static

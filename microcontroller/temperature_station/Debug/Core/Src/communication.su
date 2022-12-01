@@ -1,0 +1,4 @@
+../Core/Src/communication.cpp:10:6:void Communication::addDataToQueue(Data*)	16	static
+../Core/Src/communication.cpp:14:6:bool Communication::applyModel()	16	static
+../Core/Src/communication.cpp:18:6:virtual void Serial::sendData()	40	static
+../Core/Src/communication.cpp:44:6:virtual void Wireless::sendData()	16	static
