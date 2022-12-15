@@ -19,6 +19,7 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h \
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_crc.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h \
@@ -26,11 +27,21 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h \
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h \
+ ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h \
  ../Core/Inc/MPU6050.h ../Core/Inc/i2c.h ../Core/Inc/main.h \
- ../Core/Inc/gpio.h ../Core/Inc/usart.h ../Core/Inc/clockcalendar.h \
+ ../Core/Inc/gpio.h ../Core/Inc/clockcalendar.h \
  ../Core/Inc/communication.h ../Core/Inc/usart.h ../Core/Inc/queue.h \
- ../Core/Inc/node.h ../Core/Inc/clockcalendar.h
+ ../Core/Inc/node.h ../Core/Inc/clockcalendar.h ../Core/Inc/crc.h \
+ ../Core/Inc/model.h ../Middlewares/ST/AI/Inc/ai_datatypes_defines.h \
+ ../Middlewares/ST/AI/Inc/ai_platform.h ../X-CUBE-AI/App/temp_model.h \
+ ../Middlewares/ST/AI/Inc/ai_platform_interface.h \
+ ../Middlewares/ST/AI/Inc/datatypes_network.h \
+ ../Middlewares/ST/AI/Inc/ai_datatypes_format.h \
+ ../Middlewares/ST/AI/Inc/core_datatypes.h \
+ ../Middlewares/ST/AI/Inc/formats_list.h \
+ ../X-CUBE-AI/App/temp_model_data.h ../Core/Inc/tim.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
@@ -52,6 +63,7 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_crc.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h:
@@ -59,15 +71,28 @@ Core/Src/main.o: ../Core/Src/main.cpp ../Core/Inc/main.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_i2c_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h:
+../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h:
 ../Core/Inc/MPU6050.h:
 ../Core/Inc/i2c.h:
 ../Core/Inc/main.h:
 ../Core/Inc/gpio.h:
-../Core/Inc/usart.h:
 ../Core/Inc/clockcalendar.h:
 ../Core/Inc/communication.h:
 ../Core/Inc/usart.h:
 ../Core/Inc/queue.h:
 ../Core/Inc/node.h:
 ../Core/Inc/clockcalendar.h:
+../Core/Inc/crc.h:
+../Core/Inc/model.h:
+../Middlewares/ST/AI/Inc/ai_datatypes_defines.h:
+../Middlewares/ST/AI/Inc/ai_platform.h:
+../X-CUBE-AI/App/temp_model.h:
+../Middlewares/ST/AI/Inc/ai_platform_interface.h:
+../Middlewares/ST/AI/Inc/datatypes_network.h:
+../Middlewares/ST/AI/Inc/ai_datatypes_format.h:
+../Middlewares/ST/AI/Inc/core_datatypes.h:
+../Middlewares/ST/AI/Inc/formats_list.h:
+../X-CUBE-AI/App/temp_model_data.h:
+../Core/Inc/tim.h:

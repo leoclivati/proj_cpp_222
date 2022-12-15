@@ -64,26 +64,8 @@ Data* Queue::remove() {
    }
 }
 
-//Data* Queue::getHead() {
-//   return head->data;
-//}
-//
-//Data* Queue::getTail() {
-//   return tail->data;
-//}
-
 uint32_t Queue::getLength() {
 	return length;
 }
-
-//bool Queue::isEmpty() {
-//
-//	bool flag = false;
-//
-//	if (length == 0)
-//		flag = true;
-//
-//	return flag;
-//}
 
 

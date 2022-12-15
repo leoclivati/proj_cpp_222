@@ -1,4 +1,4 @@
-../Core/Inc/clockcalendar.h:47:3:ClockCalendar::ClockCalendar()	16	static
+../Core/Inc/clockcalendar.h:43:3:ClockCalendar::ClockCalendar()	16	static
 ../Core/Src/node.cpp:10:1:Data::Data(uint8_t, ClockCalendar, float, bool)	32	static
 ../Core/Src/node.cpp:17:1:Data::Data()	24	static
 ../Core/Src/node.cpp:24:1:Node::Node(Data*, Node*)	24	static

@@ -23,9 +23,11 @@
 /* USER CODE BEGIN Includes */
 #include "MPU6050.h"
 #include "gpio.h"
-#include "usart.h"
 #include "clockcalendar.h"
 #include "communication.h"
+#include "crc.h"
+#include "model.h"
+#include "tim.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -49,7 +51,7 @@
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
- void SystemClock_Config(void);
+void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -58,10 +60,12 @@
 /* USER CODE BEGIN 0 */
 MPU6050 mpu;
 Communication* comm;
+Model model;
 ClockCalendar cc(11, 30, 22, 10, 9, 59, 1);
 Data* pd;
 bool predIsCorrect;
 float temperature;
+float pred;
 /* USER CODE END 0 */
 
 /**
@@ -94,33 +98,46 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
   MX_USART2_UART_Init();
+  MX_CRC_Init();
+  MX_TIM10_Init();
+  __HAL_RCC_CRC_CLK_ENABLE();
 
   /* USER CODE BEGIN 2 */
   mpu.init();
+  model.init();
   comm = new Serial();
   uint8_t deviceID = 2;
+  char buf[50];
+  int buf_len = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  uint8_t i;
-	  for(i = 0; i<10; i++){
-		  mpu.readTemperature();
-		  temperature += mpu.getTemperature();
+	for (uint32_t i = 0; i < AI_TEMP_MODEL_IN_1_SIZE; i++)
+	{
+	  mpu.readTemperature();
+	  temperature = mpu.getTemperature();
+	  model.fillInput(temperature, i);
+	}
 
-	  }
-	  temperature = temperature/10;
+	pred = model.run();
+	temperature = mpu.getTemperature();
 
-	  predIsCorrect = comm->applyModel();
+	predIsCorrect = comm->verifyPrediction(temperature, pred);
 
-	  pd = new Data(deviceID, cc, temperature, predIsCorrect);
+	pd = new Data(deviceID, cc, temperature, predIsCorrect);
 
-	  comm->addDataToQueue(pd);
-	  cc.advance();
+	buf_len = sprintf(buf,
+					"Pred: %f | Val: %f \r\n",
+					pred, temperature);
+	HAL_UART_Transmit(&huart2, (uint8_t *)buf, buf_len, 100);
 
-	  HAL_Delay(1000);
+	comm->addDataToQueue(pd);
+	cc.advance();
+
+//	HAL_Delay(1000);
 
     /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
@@ -185,6 +202,12 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
 	comm->sendData();
 }
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
+{
+    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+}
+
 /* USER CODE END 4 */
 
 /**

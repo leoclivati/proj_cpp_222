@@ -1,0 +1,9 @@
+../X-CUBE-AI/App/temp_model.c:271:9:temp_model_configure_activations	24	static
+../X-CUBE-AI/App/temp_model.c:298:9:temp_model_configure_weights	24	static
+../X-CUBE-AI/App/temp_model.c:331:9:ai_temp_model_get_info	136	static
+../X-CUBE-AI/App/temp_model.c:378:10:ai_temp_model_get_error	16	static
+../X-CUBE-AI/App/temp_model.c:384:10:ai_temp_model_create	24	static
+../X-CUBE-AI/App/temp_model.c:394:11:ai_temp_model_destroy	16	static
+../X-CUBE-AI/App/temp_model.c:400:9:ai_temp_model_init	24	static
+../X-CUBE-AI/App/temp_model.c:417:8:ai_temp_model_run	24	static
+../X-CUBE-AI/App/temp_model.c:424:8:ai_temp_model_forward	16	static

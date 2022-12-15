@@ -26,10 +26,7 @@ public:
   ~Queue();
   void insert(Data* dat);
   Data* remove();
-//  Data* getHead();
-//  Data* getTail();
   uint32_t getLength();
-//  bool isEmpty();
 };
 
 

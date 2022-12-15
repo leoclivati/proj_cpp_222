@@ -11,8 +11,14 @@ void Communication::addDataToQueue(Data* data){
 	q.insert(data);
 }
 
-bool Communication::applyModel(){
-	return true;
+bool Communication::verifyPrediction(float measure, float prediction){
+
+	if(abs(prediction-measure)<0.5) {
+		return true;
+	}
+	else{
+		return false;
+	}
 }
 
 void Serial::sendData(){

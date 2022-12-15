@@ -20,20 +20,6 @@ Clock::Clock(){
 	is_pm = 0;
 }
 
-void Clock::setClock(uint8_t h, uint8_t s, uint8_t m, bool pm){
-			hr = h;
-			min = m;
-			sec = s;
-			is_pm = pm;
-		}
-
-void Clock::readClock(uint8_t& h, uint8_t& s, uint8_t& m, bool& pm){
-			h = hr;
-			s = sec;
-			m = min;
-			pm = is_pm;
-		}
-
 uint8_t Clock::getSecond(){
 	return sec;
 }
@@ -80,18 +66,6 @@ Calendar::Calendar(){
 	day = 0;
 	yr = 0;
 }
-
-void Calendar::setCalendar(uint8_t m, uint8_t d, uint8_t y){
-			mo = m;
-			day = d;
-			yr = y;
-		}
-
-void Calendar::readCalendar(uint8_t& m, uint8_t& d, uint8_t& y){
-			m = mo;
-			d = day;
-			y = yr;
-		}
 
 void Calendar::advance(){
 			day++;

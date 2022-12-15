@@ -25,10 +25,16 @@ void MPU6050::readTemperature(){
 	uint8_t data[2];
 	int16_t temp_raw;
 
-	HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, TEMP_REG, 1, data, 2, 1000);
+	for(uint8_t j = 0; j<20; j++){
 
-	temp_raw = (int16_t)(data[0]<<8 | data[1]);
-	temperature = (temp_raw/340) + 36.53;
+		HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, TEMP_REG, 1, data, 2, 1000);
+
+		temp_raw = (int16_t)(data[0]<<8 | data[1]);
+		temperature += ((temp_raw/340) + 36.53);
+		HAL_Delay(50);
+	}
+
+	temperature = temperature/20;
 }
 
 float MPU6050::getTemperature(){

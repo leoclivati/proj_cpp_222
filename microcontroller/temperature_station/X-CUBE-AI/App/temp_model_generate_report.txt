@@ -1,0 +1,100 @@
+Neural Network Tools for STM32 v1.4.0 (AI tools v5.2.0)
+Created date       : 2022-12-12 12:30:59
+Parameters         : generate --name temp_model -m C:/Users/leocl/Desktop/UFSC/Oitavo_Semestre/EEL7323_Sistemas_Embarcados/temperature_model.tflite --type tflite --compression 1 --verbosity 1 --workspace C:\Users\leocl\AppData\Local\Temp\mxAI_workspace419483966059917523273227875859080 --output C:\Users\leocl\.stm32cubemx
+
+Exec/report summary (generate dur=0.51s err=0)
+------------------------------------------------------------------------------------------------------------------------
+model file         : C:\Users\leocl\Desktop\UFSC\Oitavo_Semestre\EEL7323_Sistemas_Embarcados\temperature_model.tflite
+type               : tflite (tflite) 
+c_name             : temp_model
+compression        : None
+quantize           : None
+workspace dir      : C:\Users\leocl\AppData\Local\Temp\mxAI_workspace419483966059917523273227875859080
+output dir         : C:\Users\leocl\.stm32cubemx
+
+model_name         : temperature_model
+model_hash         : 66db09f301c8e46fcb6a1627f22c370a
+input              : serving_default_dense_input0 [9 items, 36 B, ai_float, FLOAT32, (1, 1, 9)]
+inputs (total)     : 36 B
+output             : dense_1 [1 items, 4 B, ai_float, FLOAT32, (1, 1, 1)]
+outputs (total)    : 4 B
+params #           : 177 items (708 B)
+macc               : 176
+weights (ro)       : 708 B (708 B) 
+activations (rw)   : 64 B (64 B) 
+ram (total)        : 104 B (104 B) = 64 + 36 + 4
+
+------------------------------------------------------------------------------------------------------------------------
+id  layer (type)                         output shape      param #     connected to             macc           rom                
+------------------------------------------------------------------------------------------------------------------------
+0   serving_default_dense_input0 (Input) (9,)                                                                                     
+    dense_0 (Dense)                      (16,)             160         serving_default_dense_in 144            640                
+    nl_0 (Nonlinearity)                  (16,)                         dense_0                  16                                
+------------------------------------------------------------------------------------------------------------------------
+1   dense_1 (Dense)                      (1,)              17          nl_0                     16             68                 
+------------------------------------------------------------------------------------------------------------------------
+temperature_model p=177(708 Bytes) macc=176 rom=708 Bytes ram=64 B io_ram=40 B
+
+
+
+Generated C-graph summary
+------------------------------------------------------------------------------------------------------------------------
+model name         : temperature_model
+c-name             : temp_model
+c-node #           : 3
+c-array #          : 8
+activations size   : 64
+weights size       : 708
+macc               : 176
+inputs             : ['serving_default_dense_input0_output_array']
+outputs            : ['dense_1_output_array']
+
+
+C-Arrays (8)
+------------------------------------------------------------------------------------------------------------------------
+c_id  name (*_array)                       item/size           mem-pool     c-type       fmt    comment            
+------------------------------------------------------------------------------------------------------------------------
+0     dense_1_bias                         1/4                 weights      const float  float                     
+1     dense_1_weights                      16/64               weights      const float  float                     
+2     dense_0_bias                         16/64               weights      const float  float                     
+3     dense_0_weights                      144/576             weights      const float  float                     
+4     serving_default_dense_input0_output  9/36                user         float        float  /input             
+5     dense_0_output                       16/64               activations  float        float                     
+6     nl_0_output                          16/64               activations  float        float                     
+7     dense_1_output                       1/4                 user         float        float  /output            
+------------------------------------------------------------------------------------------------------------------------
+
+
+C-Layers (3)
+------------------------------------------------------------------------------------------------------------------------
+c_id  name (*_layer)  id  type   macc        rom         tensors                                 shape (array id)                       
+------------------------------------------------------------------------------------------------------------------------
+0     dense_0         0   dense  144         640         I: serving_default_dense_input0_output  [1, 1, 1, 9] (4)                       
+                                                         W: dense_0_weights                                                             
+                                                         W: dense_0_bias                                                                
+                                                         O: dense_0_output                       [1, 1, 1, 16] (5)                      
+------------------------------------------------------------------------------------------------------------------------
+1     nl_0            0   nl     16          0           I: dense_0_output                       [1, 1, 1, 16] (5)                      
+                                                         O: nl_0_output                          [1, 1, 1, 16] (6)                      
+------------------------------------------------------------------------------------------------------------------------
+2     dense_1         1   dense  16          68          I: nl_0_output                          [1, 1, 1, 16] (6)                      
+                                                         W: dense_1_weights                                                             
+                                                         W: dense_1_bias                                                                
+                                                         O: dense_1_output                       [1, 1, 1, 1] (7)                       
+------------------------------------------------------------------------------------------------------------------------
+
+
+ 
+Complexity per-layer - macc=176 rom=708
+------------------------------------------------------------------------------------------------------------------------
+id      layer (type)                         macc                                    rom                                    
+------------------------------------------------------------------------------------------------------------------------
+0       dense_0 (Dense)                      |||||||||||||||||||||||||||||||  81.8%  |||||||||||||||||||||||||||||||  90.4% 
+0       nl_0 (Nonlinearity)                  ||||                              9.1%  |                                 0.0% 
+1       dense_1 (Dense)                      ||||                              9.1%  ||||                              9.6% 
+------------------------------------------------------------------------------------------------------------------------
+
+
+Evaluation report (summary)
+---------------------------------------------
+NOT EVALUATED

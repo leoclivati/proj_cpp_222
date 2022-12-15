@@ -10,12 +10,13 @@
 
 #include "usart.h"
 #include "queue.h"
+#include "math.h"
 
 class Communication{
 	public:
 		Queue q;
 		void addDataToQueue(Data* data);
-		bool applyModel();
+		bool verifyPrediction(float measure, float prediction);
 		virtual void sendData() = 0;
 };
 
