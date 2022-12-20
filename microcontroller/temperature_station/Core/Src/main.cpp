@@ -65,7 +65,7 @@ ClockCalendar cc(11, 30, 22, 10, 9, 59, 1);
 Data* pd;
 bool predIsCorrect;
 float temperature;
-float pred;
+float pred, measure;
 /* USER CODE END 0 */
 
 /**
@@ -101,43 +101,43 @@ int main(void)
   MX_CRC_Init();
   MX_TIM10_Init();
   __HAL_RCC_CRC_CLK_ENABLE();
-
   /* USER CODE BEGIN 2 */
+  HAL_TIM_Base_Start_IT(&htim10);
   mpu.init();
   model.init();
   comm = new Serial();
   uint8_t deviceID = 2;
-  char buf[50];
-  int buf_len = 0;
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	//Realiza a aquisicao das medidas do sensor
+	//Acumula 9 medidas para o buffer de entrada do modelo
 	for (uint32_t i = 0; i < AI_TEMP_MODEL_IN_1_SIZE; i++)
 	{
+
 	  mpu.readTemperature();
 	  temperature = mpu.getTemperature();
 	  model.fillInput(temperature, i);
+
 	}
 
+	//Predicao do proximo valor de temperatura
 	pred = model.run();
-	temperature = mpu.getTemperature();
 
-	predIsCorrect = comm->verifyPrediction(temperature, pred);
+	//Aquisicao de um novo valor de temperatura
+	measure = mpu.getTemperature();
 
-	pd = new Data(deviceID, cc, temperature, predIsCorrect);
+	//Compara a predicao com o valor medido
+	predIsCorrect = comm->verifyPrediction(measure, pred);
 
-	buf_len = sprintf(buf,
-					"Pred: %f | Val: %f \r\n",
-					pred, temperature);
-	HAL_UART_Transmit(&huart2, (uint8_t *)buf, buf_len, 100);
+	//Ponteiro com as informacoes para adicionar na fila
+	pd = new Data(deviceID, cc, measure, predIsCorrect);
 
+	//Adiciona elemento na fila
 	comm->addDataToQueue(pd);
-	cc.advance();
-
-//	HAL_Delay(1000);
 
     /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
@@ -200,12 +200,14 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
+	//Envia os dados para o computador
 	comm->sendData();
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef* htim)
 {
-    HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+	//Incrementa a timestamp a cada 1 segundo
+	cc.advance();
 }
 
 /* USER CODE END 4 */

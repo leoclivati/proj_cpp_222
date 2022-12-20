@@ -11,6 +11,7 @@
 #include "usart.h"
 #include "queue.h"
 #include "math.h"
+#include <stdio.h>
 
 class Communication{
 	public:
