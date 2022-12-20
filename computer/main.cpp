@@ -1,94 +1,61 @@
-#include "List.cpp"
+#include <chrono>
+#include <iostream>
+#include <thread>
+#include <vector>
 
-enum state{
-	S1, S2, S3, S4, S5, S6
-};
+#include "AppMenu.hpp"
+#include "DataStructures/Queue.hpp"
+#include "Event/Event.hpp"
+#include "EventParser.hpp"
+#include "Serial.hpp"
 
-enum action{
-	aRLOG, aRDATA, aNOTAV, aCANCEL, aAV, aCONT, aSAVE, aRET
-};
+int main() {
+  using namespace std::chrono_literals;
 
-enum event{
-	RLOG, RDATA, CANCEL, AV, NOTAV, CONT
-};
+  Serial serial("/dev/ttyUSB0", B9600);
 
+  std::vector<EventBase*> queue;
 
-class StateMachine{
-	state currentState;
-	event userEvent;
-	action returnAction;
-	
-	public:
-	void FSM(){
-		switch (currentState){
-			case S1:
-				switch(userEvent){
-					case RLOG:
-						currentState = S2;
-						returnAction = aRLOG;
-					case RDATA:
-						currentState = S3;
-						returnAction = aRDATA;	
-				}
-			case S2:
-				switch(userEvent){
-					case NOTAV:
-						currentState = S1;
-						returnAction = aNOTAV;
-					case AV:
-						currentState = S4;
-						returnAction = aAV;	
-				}
-			case S3:
-				switch(userEvent){
-					case CONT:
-						currentState = S5;
-						returnAction = aCONT;
-					case CANCEL:
-						currentState = S6;
-						returnAction = aCANCEL;
-				}
-			case S4:
-				currentState = S1;
-				returnAction = aSAVE;
-			case S5:
-				switch(userEvent){
-					case NOTAV:
-						currentState = S1;
-						returnAction = aNOTAV;
-					case AV:
-						currentState = S6;
-						returnAction = aAV;	
-				}
-			case S6:
-				currentState = S1;
-				returnAction = aRET;		
-		}
-	
-	}
+  std::cout << "[Host] - Initializing Serial\n";
+  bool first_run = true;
+  while (serial.openPort() < 0) {
+    if (first_run) {
+      std::cout << "[Host] - Serial device not found\n";
+      std::cout << "[Host] - Please connect to the Station\n";
+      first_run = false;
+    }
+  }
+  std::cout << "[Host] - Station serial found\n";
+  // Wait for connection to stabilize
+  std::this_thread::sleep_for(1s);
 
-};
+  std::cout << "[Host] - Press button on Station to receive data\n";
+  std::this_thread::sleep_for(5s);
+  uint32_t data_count{0};
 
-class Serial: public List{
-	public:
-	List l;
-};
+  while (serial.available()) {
+    std::string A = serial.readPort();
+    queue.emplace_back(EventParser::ParseEvent(A));
+    data_count++;
+  }
 
+  std::cout << "[Host] - Received " << data_count << " events from station\n";
 
+  while (true) {
+    time_t initialTime = AppMenu::getTimeFromUserMenu("Initial");
+    time_t endTime = AppMenu::getTimeFromUserMenu("End");
 
-int main(){
-	
-	
-	ClockCalendar cc(12, 30, 2022, 12, 59, 59, 1);
-	
-	Data* pd;
-	
-	pd = new Data("MEU MIC", cc, 25.6, true);
-	
-	List l;
-	
-	l.insertValue(pd);
-	l.listValue();
-	
-	return 0;
+    std::vector<EventBase*> slice =
+        AppMenu::getTimedSliceMenu(queue, initialTime, endTime);
+
+    AppMenu::printQueueSlice(slice);
+
+    char exit_ = 0;
+    std::cout << "[Host] - Press 0 to exit or other key to search again\n";
+    std::cin >> exit_;
+    if (exit_ == '0') {
+      break;
+    }
+  }
+  return 0;
 }
